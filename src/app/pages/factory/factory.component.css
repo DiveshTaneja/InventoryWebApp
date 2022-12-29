@@ -1,0 +1,7 @@
+.serial-no{
+    color:#1a0dab;
+}
+
+.serial-no:hover{
+    text-decoration: underline;
+}

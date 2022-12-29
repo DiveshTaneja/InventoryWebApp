@@ -1,0 +1,91 @@
+<div>
+    <nav class="navbar navbar-light bg-primary">
+
+        <div class="container-fluid">
+            <h3 class="ml-2 heading" style="color: aliceblue">Factory Name : {{factory.factoryName}}</h3>
+            <h3 class="ml-2 heading" style="color: aliceblue">Factory Location : {{factory.factoryLocation}}</h3>
+        </div>
+        </nav>
+    
+    <h3 class=" text-center mt-2">Products</h3>
+
+    <div class="container d-flex p-2 bd-highlight justify-content-between">
+        
+        <button class="btn btn-primary" style="margin-right:100px;" (click)="navigateFactory()">
+            Go to Factory Page
+        </button>
+        <button class="btn btn-primary" style="margin-right:100px;" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-add"
+                viewBox="0 0 16 16">
+                <path
+                    d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h4a.5.5 0 1 0 0-1h-4a.5.5 0 0 1-.5-.5V7.207l5-5 6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z" />
+                <path
+                    d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 1 0 1 0v-1h1a.5.5 0 1 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z" />
+            </svg>
+            Add
+        </button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add new Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="formValue">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Product Name</label>
+                            <input type="text" formControlName="productName" class="form-control">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1"> Description</label>
+                            <input type="text" formControlName="productDescription" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1"> Quantity</label>
+                            <input type="text" formControlName="productQuantity" class="form-control">
+                        </div>
+                        
+                       
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" (click)="addProduct()" *ngIf="!isUpdatingProduct" class="btn btn-primary">Add</button>
+                    <button type="button" (click)="updateProduct()" *ngIf="isUpdatingProduct" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <table class="table container">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products">
+                    <td>{{product.productId}}</td>
+                    <td>{{product.productName}}</td>
+                    <td>{{product.description}}</td>
+                    <td>{{product.quantity}}</td>
+                    <td>
+                        <button (click)="onEdit(product)" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Edit</button>
+                        <button (click)="deleteProduct(product.productId)" class="btn btn-danger mx-3"> Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
