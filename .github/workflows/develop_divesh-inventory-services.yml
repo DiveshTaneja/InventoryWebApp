@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'divesh-inventory-services'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9D69533A2A294ADC8588C0674D9F6C23 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8826561A61C549CB89EE89DEAB867347 }}
           package: .
