@@ -60,6 +60,10 @@ export class ProductComponent implements OnInit {
       }
     )
   }
+  resetForm(){
+    this.formValue.reset();
+    this.isUpdatingProduct=false;
+  }
   addProduct() {
     this.productObj = new ProductModel();
     this.productObj.factoryId = this.factoryId;

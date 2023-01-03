@@ -39,10 +39,12 @@ export class FactoryComponent implements OnInit {
       }
     )
   }
+  resetForm(){
+    this.formValue.reset();
+    this.isUpdatingFactory=false;
+  }
   addFactory() {
     this.formValue.reset();
-    this.formValue.controls['factoryName'].setValue('');
-    this.formValue.controls['factoryLocation'].setValue('');
     this.factoryObj=new FactoryModel();
     this.factoryObj.factoryName = this.formValue.value.factoryName;
     this.factoryObj.factoryLocation = this.formValue.value.factoryLocation;
