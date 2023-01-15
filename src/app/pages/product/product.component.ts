@@ -17,10 +17,11 @@ export class ProductComponent implements OnInit {
 
   products!: ProductDTO[];
   formValue!: FormGroup;
-  productObj: ProductModel;
   isUpdatingProduct: boolean = false;
   factoryId: number;
   factory: FactoryModel;
+  productImage:File;
+  productId:number;
   constructor(
     private productService: ProductService,
     private formBuilder: FormBuilder,
@@ -33,11 +34,11 @@ export class ProductComponent implements OnInit {
     this.getFactory();
     console.log(this.factoryId);
     this.getProducts();
-    this.productObj = new ProductModel();
     this.formValue = this.formBuilder.group({
       productName: [''],
       productQuantity: [''],
-      productDescription:['']
+      productDescription:[''],
+      productImage:[null]
     })
   }
 
@@ -65,12 +66,14 @@ export class ProductComponent implements OnInit {
     this.isUpdatingProduct=false;
   }
   addProduct() {
-    this.productObj = new ProductModel();
-    this.productObj.factoryId = this.factoryId;
-    this.productObj.productName = this.formValue.value.productName;
-    this.productObj.quantity = Number(this.formValue.value.productQuantity);
-    this.productObj.description=this.formValue.value.productDescription;
-    this.productService.addProduct(this.productObj).subscribe(
+    const formData=new FormData();
+    formData.append('factoryId',this.factoryId.toString());
+    formData.append('productName',this.formValue.value.productName);
+    formData.append('quantity',this.formValue.value.productQuantity);
+    formData.append('description',this.formValue.value.productDescription);
+    if(this.productImage!=null)
+      formData.append('image',this.productImage);
+    this.productService.addProduct(formData).subscribe(
       response => {
         console.log(JSON.stringify(response));
         alert("Product Added Successfully");
@@ -92,23 +95,28 @@ export class ProductComponent implements OnInit {
   }
   onEdit(product: ProductDTO) {
     this.isUpdatingProduct = true;
-    this.productObj.productId = product.productId;
-    this.productObj.factoryId = this.factoryId;
+    this.productId = product.productId;
     this.formValue.controls['productName'].setValue(product.productName);
     this.formValue.controls['productQuantity'].setValue(product.quantity);
     this.formValue.controls['productDescription'].setValue(product.description);
+    this.productImage=null;
   }
 
   updateProduct() {
-    this.productObj.productName = this.formValue.value.productName;
-    this.productObj.quantity = Number(this.formValue.value.productQuantity);
-    this.productObj.description = this.formValue.value.productDescription;
-    console.log(this.productObj);
-    this.productService.updateProduct(this.productObj).subscribe(
+    const formData=new FormData();
+    formData.append('factoryId',this.factoryId.toString());
+    formData.append('productName',this.formValue.value.productName);
+    formData.append('quantity',this.formValue.value.productQuantity);
+    formData.append('description',this.formValue.value.productDescription);
+    formData.append('productId',this.productId.toString());
+    if(this.productImage!=null)
+      formData.append('image',this.productImage);
+    this.productService.updateProduct(formData).subscribe(
       response => {
         console.log(response);
         alert("Product Updated Successfully");
         this.formValue.reset();
+        this.productImage=null;
         let ref = document.getElementById("cancel");
         ref.click();
         this.getProducts();
@@ -119,6 +127,9 @@ export class ProductComponent implements OnInit {
 
   navigateFactory(){
     this.router.navigate(['']);
+  }
+  onFileSelected(event){
+    this.productImage=event.target.files[0];
   }
 
 }

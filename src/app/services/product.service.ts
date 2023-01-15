@@ -10,21 +10,21 @@ import { ProductModel } from '../models/product-model';
 export class ProductService {
 
   constructor(private http: HttpClient) { }
-  private baseUrl="https://divesh-inventory-manager.azurewebsites.net/manage/";
-
+  private baseUrl="http://localhost:8080/manage/"
+  // "https://divesh-inventory-manager.azurewebsites.net/manage/";
   getAllProducts(factoryId:number):Observable<ProductDTO[]>{
     return this.http.get<ProductDTO[]>(this.baseUrl+"viewAll/products/"+factoryId);
   }
   
-  addProduct(product:ProductModel){
-    return this.http.post(this.baseUrl+"add/product",product);
+  addProduct(formData:FormData){
+    return this.http.post(this.baseUrl+"add/product",formData);
   }
 
   deleteProduct(productId:number){
     return this.http.delete(this.baseUrl+"delete/product/"+productId);
   }
 
-  updateProduct(product:ProductModel){
-    return this.http.put(this.baseUrl+"update/product",product);
+  updateProduct(formData:FormData){
+    return this.http.put(this.baseUrl+"update/product",formData);
   }
 }
