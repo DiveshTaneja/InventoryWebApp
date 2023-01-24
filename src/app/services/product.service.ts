@@ -10,8 +10,7 @@ import { ProductModel } from '../models/product-model';
 export class ProductService {
 
   constructor(private http: HttpClient) { }
-  private baseUrl="http://localhost:8080/manage/"
-  // "https://divesh-inventory-manager.azurewebsites.net/manage/";
+  private baseUrl="https://divesh-inventory-manager.azurewebsites.net/manage/";
   getAllProducts(factoryId:number):Observable<ProductDTO[]>{
     return this.http.get<ProductDTO[]>(this.baseUrl+"viewAll/products/"+factoryId);
   }
