@@ -3,15 +3,18 @@ import { FactoryProvider, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FactoryDTO } from '../interfaces/factory-dto';
 import { FactoryModel } from '../models/factory-model';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FactoryService {
   constructor(private http: HttpClient) { }
-  private baseUrl="https://divesh-inventory-manager.azurewebsites.net/manage/"
+  private baseUrl="https://apim-get-assessment.azure-api.net/v1/manage/"
 
   getAllFactories():Observable<FactoryDTO[]>{
+    const header= new HttpHeaders()
+  .set('Ocp-Apim-Subscription-Key', '8e72fb814b4f433e948172902e4c57ec')
     return this.http.get<FactoryDTO[]>(this.baseUrl+"viewAll/factory");
   }
 
