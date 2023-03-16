@@ -22,8 +22,8 @@ export class OrderComponent implements OnInit {
     private productService:ProductService
     ) {
     this.productId=this.route.snapshot.params['id']
-    this.getOrders();
     this.getProduct();
+    this.getOrders();
    }
 
   ngOnInit(): void {
