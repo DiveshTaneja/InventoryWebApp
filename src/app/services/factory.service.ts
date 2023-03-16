@@ -21,7 +21,7 @@ export class FactoryService {
   }
   
   addFactory(factory:FactoryModel){
-    return this.http.post(this.baseUrl+"add/factory",factory);
+    return this.http.post( "https://divesh-inventory.azurewebsites.net/manage/"+"add/factory",factory);
   }
 
   deleteFactory(factoryId:number){
@@ -29,7 +29,7 @@ export class FactoryService {
   }
 
   updateFactory(factory:FactoryDTO){
-    return this.http.put(this.baseUrl+"update/factory",factory);
+    return this.http.put( "https://divesh-inventory.azurewebsites.net/manage/"+"update/factory",factory);
   }
   
 }

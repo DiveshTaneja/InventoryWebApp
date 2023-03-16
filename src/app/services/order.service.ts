@@ -13,7 +13,7 @@ export class OrderService {
   baseUrl = "https://apim-get-assessment.azure-api.net/orders/orders-management/";
 
   addOrder(order :OrderModel){
-    return this.httpClient.post(this.baseUrl+"order",order);
+    return this.httpClient.post("https://divesh-orders-managmenet.azurewebsites.net/orders-management/"+"order",order);
   }
 
   getAllOrders(productId:number):Observable<OrderModel[]>{
