@@ -10,7 +10,8 @@ import { ProductModel } from '../models/product-model';
 export class ProductService {
 
   constructor(private http: HttpClient) { }
-  private baseUrl="https://apim-get-assessment.azure-api.net/v1/manage/";
+  private baseUrl="https://apim-get-assessment.azure-api.net/v1/manage/" ;
+  // private baseUrl="https://divesh-inventory-manager.azurewebsites.net/manage/";
   getAllProducts(factoryId:number):Observable<ProductDTO[]>{
     return this.http.get<ProductDTO[]>(this.baseUrl+"viewAll/products/"+factoryId);
   }
@@ -25,5 +26,9 @@ export class ProductService {
 
   updateProduct(formData:FormData){
     return this.http.put(this.baseUrl+"update/product",formData);
+  }
+
+  getProduct(productId:number):Observable<ProductModel>{
+    return this.http.get<ProductModel>(this.baseUrl+"product/"+productId)
   }
 }

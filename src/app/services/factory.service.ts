@@ -13,8 +13,6 @@ export class FactoryService {
   private baseUrl="https://apim-get-assessment.azure-api.net/v1/manage/"
 
   getAllFactories():Observable<FactoryDTO[]>{
-    const header= new HttpHeaders()
-  .set('Ocp-Apim-Subscription-Key', '8e72fb814b4f433e948172902e4c57ec')
     return this.http.get<FactoryDTO[]>(this.baseUrl+"viewAll/factory");
   }
 

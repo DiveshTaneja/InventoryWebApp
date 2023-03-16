@@ -9,12 +9,14 @@ import { ProductComponent } from './pages/product/product.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiKeyInterceptor } from './interceptors/api-key.interceptor';
+import { OrderComponent } from './pages/order/order.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FactoryComponent,
     ProductComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,

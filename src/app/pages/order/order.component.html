@@ -1,0 +1,45 @@
+<div>
+
+    <nav class="navbar navbar-light bg-primary">
+
+        <div class="container-fluid">
+            <h3 class="ml-2 heading" style="color: aliceblue">Product Name : {{product.productName}} </h3>
+            <h3 class="ml-2 heading" style="color: aliceblue">Product Quantity : {{product.quantity}}</h3>
+        </div>
+    </nav>
+
+    <h3 class=" text-center mt-2">Order Details</h3>
+
+    <div class="container d-flex flex-column p-2 bd-highlight justify-content-between">
+        
+        <button class="btn btn-primary" style="width: 250px;" (click)="navigateFactory()">
+            Go to Factory Page
+        </button>
+        <button class="btn btn-secondary mt-2" style="width: 250px;" (click)="navigateProducts()">
+            Go to Products
+        </button>
+        
+    </div>
+
+    <div class="mt-4">
+        <table class="table container">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Client Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of orders">
+                    <td>{{order.orderId}}</td>
+                    <td>{{order.clientName}}</td>
+                    <td>{{order.quantity}}</td>
+                    <td>{{order.createdDate}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

@@ -7,6 +7,8 @@ import { ProductService } from 'src/app/services/product.service';
 import { FactoryService } from 'src/app/services/factory.service';
 import { FactoryDTO } from 'src/app/interfaces/factory-dto';
 import { FactoryModel } from 'src/app/models/factory-model';
+import { OrderModel } from 'src/app/models/order-model';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: 'app-product',
@@ -17,17 +19,20 @@ export class ProductComponent implements OnInit {
 
   products!: ProductDTO[];
   formValue!: FormGroup;
+  orderFormValue :FormGroup;
   isUpdatingProduct: boolean = false;
   factoryId: number;
   factory: FactoryModel;
   productImage:File;
   productId:number;
+  orderProduct:ProductDTO;
   constructor(
     private productService: ProductService,
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private factoryService: FactoryService
+    private factoryService: FactoryService,
+    private orderService: OrderService
   ) {
     this.factoryId = this.route.snapshot.params['id'];
     this.factory=new FactoryModel();
@@ -40,6 +45,12 @@ export class ProductComponent implements OnInit {
       productDescription:[''],
       productImage:[null]
     })
+    this.orderFormValue = this.formBuilder.group(
+      {
+        clientName: [''],
+        orderQuantity: ['']
+      }
+    )
   }
 
   ngOnInit(): void {
@@ -64,6 +75,47 @@ export class ProductComponent implements OnInit {
   resetForm(){
     this.formValue.reset();
     this.isUpdatingProduct=false;
+  }
+  onPlacingOrder(product : ProductDTO){
+    this.orderProduct = product;
+  }
+  resetOrder(){
+    this.orderFormValue.reset();
+  }
+  placeOrder(){
+    console.log(this.orderProduct);
+    console.log(typeof(this.orderFormValue.value.orderQuantity))  
+    if(Number(this.orderFormValue.value.orderQuantity)>this.orderProduct.quantity){
+      alert("Order Quantity Cannot be more than the available quanitiy!!")
+      return;
+    }
+    const order = new OrderModel();
+    order.clientName = this.orderFormValue.value.clientName;
+    order.productId = this.orderProduct.productId;
+    order.quantity = this.orderFormValue.value.orderQuantity;
+    console.log(order.quantity);
+    this.orderService.addOrder(order).subscribe(
+      response =>{
+        console.log(JSON.stringify(response));
+        const formData = new FormData();
+        formData.append('factoryId',this.factoryId.toString());
+        formData.append('productName',this.orderProduct.productName);
+        formData.append('quantity',(this.orderProduct.quantity-order.quantity).toString());
+        formData.append('description',this.orderProduct.description);
+        formData.append('productId',this.orderProduct.productId.toString());
+        this.productService.updateProduct(formData).subscribe(
+          res =>{
+            alert("Order Placed Successfully");
+            this.orderFormValue.reset();
+            let ref = document.getElementById("close-order");
+            ref.click();
+            this.orderProduct=null;
+            this.getProducts();
+          }
+        )
+        
+      }
+    )
   }
   addProduct() {
     const formData=new FormData();
@@ -130,6 +182,10 @@ export class ProductComponent implements OnInit {
   }
   onFileSelected(event){
     this.productImage=event.target.files[0];
+  }
+
+  navigateOrders(productId:number){
+    this.router.navigate(['/product',productId]);
   }
 
 }
