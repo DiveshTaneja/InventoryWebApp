@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 export class ApiKeyInterceptor implements HttpInterceptor {
 
   private _apiHeaderName = 'Ocp-Apim-Subscription-Key';
-  private _apiHeaderValue = '8e72fb814b4f433e948172902e4c57ec' ; 
+  private _apiHeaderValue = '95a1834464124c69bb8946318ac73077' ; 
   constructor() {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) : Observable<HttpEvent<any>> {
